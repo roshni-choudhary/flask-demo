@@ -44,3 +44,4 @@ if __name__ == "__main__":
     app.run(debug=True)
     
     # crud operations to be done in the database using SQLAlchemy
+    #template hierarchy- add base and update html files
