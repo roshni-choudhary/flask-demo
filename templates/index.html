@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 
@@ -8,99 +7,109 @@
 
     <title>My Todo</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">My Todo</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">My Todo</a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-        data-target="#navbarSupportedContent">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-        </ul>
-
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0">
-                Search
-            </button>
-        </form>
-    </div>
-</nav>
-
-
-<div class="container my-4">
-
-    <h2>Add a Todo</h2>
-
-    <form>
-        <div class="form-group">
-            <label for="title">Todo Title</label>
-            <input type="text" class="form-control" id="title"
-                placeholder="Enter your todo">
-        </div>
-
-        <div class="form-group">
-            <label for="desc">Description</label>
-            <textarea class="form-control" id="desc" rows="3"
-                placeholder="Enter description"></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-            Add Todo
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
         </button>
-    </form>
 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
     <div class="container my-4">
+
+        <h2>Add a Todo</h2>
+
+        <form action="/" method="POST">
+
+            <div class="form-group">
+                <label for="title">Todo Title</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="Enter your todo">
+            </div>
+
+            <div class="form-group">
+                <label for="desc">Description</label>
+                <textarea
+                    class="form-control"
+                    id="desc"
+                    name="desc"
+                    rows="3"
+                    placeholder="Enter description"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Add Todo
+            </button>
+
+        </form>
+
+        <hr>
+
         <h2>Your Todos</h2>
 
+        {% if allTodo|length == 0 %}
+
+        <div class="alert alert-dark" role="alert">
+            No Todos Found. Add your first todo!
+        </div>
+
+        {% else %}
+
         <table class="table">
+
             <thead>
                 <tr>
-                    <th scope="col">SNo</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Time Created</th>
+                    <th>SNo</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Time Created</th>
                 </tr>
             </thead>
 
             <tbody>
+
+                {% for todo in allTodo %}
+
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Learn Flask</td>
-                    <td>Complete Flask Todo App</td>
-                    <td>Today</td>
+                    <td>{{ todo.sno }}</td>
+                    <td>{{ todo.title }}</td>
+                    <td>{{ todo.desc }}</td>
+                    <td>{{ todo.date_created }}</td>
                 </tr>
+
+                {% endfor %}
+
             </tbody>
 
         </table>
+
+        {% endif %}
+
     </div>
 
-</div>
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    crossorigin="anonymous"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-    crossorigin="anonymous"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
 
 </body>
 
 </html>
-

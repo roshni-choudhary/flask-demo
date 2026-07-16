@@ -1,11 +1,13 @@
-from flask import Flask,render_template
-from datetime import datetime
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
+
 
 class Todo(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
@@ -13,10 +15,30 @@ class Todo(db.Model):
     desc = db.Column(db.String(500), nullable=False)
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-@app.route("/")
+    def __repr__(self):
+        return f"<Todo sno={self.sno}, desc='{self.desc}'>"
+
+
+@app.route('/', methods=['GET', 'POST'])
 def hello_world():
-    return render_template("index.html")
-    # return "<p>Hello, World!</p>"
+
+    if request.method == "POST":
+
+        title = request.form['title']
+        desc = request.form['desc']
+
+        todo = Todo(title=title, desc=desc)
+
+        db.session.add(todo)
+        db.session.commit()
+
+    allTodo = Todo.query.all()
+
+    return render_template("index.html", allTodo=allTodo)
+
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    with app.app_context():
+        db.create_all()
+
+    app.run(debug=True)
